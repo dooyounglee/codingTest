@@ -1,0 +1,33 @@
+<script>
+var memo={1:1}
+function sol1(n){
+	let max=Math.pow(2,n)
+	let sum=1;
+	for(let i=2;i<max;i++){
+		let tmp=i.toString(2)
+		let tmp_arr=tmp.split('')
+		let arr=[]
+		for(let j=0;j<tmp_arr.length;j++){
+			if(j==tmp_arr.length-1){
+				arr.push('0')
+			}else if(tmp_arr[j]=='0'){
+				arr.push('0')
+			}else if(tmp_arr[j+1]=='0'){
+				arr.push('0')
+				arr.push('1')
+				j++
+			}else{
+				arr.push('1')
+			}
+		}
+		
+		let temp1=parseInt(arr.join(''),2)
+		let temp2=temp1.toString(2)
+		memo[tmp]=1+memo[temp2]
+		sum+=memo[tmp]
+	}
+	return sum
+}
+
+console.log(sol1(16))
+</script>
