@@ -29,5 +29,45 @@ function sol1(n){
 	return sum
 }
 
-console.log(sol1(16))
+//console.log(sol1(16))
+
+function steps_(n){
+	var cnt=0;
+	while(n>0){
+		cnt++;
+		var none=~n
+		var movable=(none<<1)+1;
+		n=(n&(~movable))|((n>>1)&none);
+	}
+	return cnt;
+}
+/*for(var i=1;i<=(1<<16)-1;i++){
+	sum+=steps(i);
+}*/
+
+var memo=[0,1]
+function steps(n){
+	if(memo[n])return memo[n];
+	
+	var none=~n;
+	var movable=(none<<1)+1;
+	var moved=(n&(~movable))|((n>>1)&none);
+	return memo[n]=1+memo[moved];
+}
+var sum=0;
+for(var i=1;i<(1<<16);i++){
+	sum+=steps(i);
+}
+console.log(sum)
+
+/* 비트연산자
+n.toString(2) //10
+n<<1 //4=10 0
+n>>1 //n의 첫번째+n의 맨끝 제거
+n>>>1 // 0+n의 맨끝 제거
+n&m //둘다 1일때 1
+n|m //둘다 0일떄 0
+n^m //다르면 1
+~n //반전
+*/
 </script>
