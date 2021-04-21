@@ -1,0 +1,44 @@
+<script>
+function my(all,st,ed){
+	let sum=1;
+	let prod=1;
+	
+	//sum+=all-ed
+	//sum+=(all-ed)*(ed-2)
+	//sum+=(all-ed)*(ed-2)*(all-ed-1)
+	//sum+=(all-ed)*(ed-2)*(all-ed-1)*(ed-2-1)
+	
+	let a=all-ed;
+	let b=ed-2;
+	
+	let max=Math.max(a,b);
+	for(let i=0;i<2*max;i++){
+		if(i%2==0){
+			prod*=a-i/2;
+		}else{
+			prod*=b-(i-1)/2;
+		}
+		sum+=prod;
+	}
+	return sum;
+}
+console.log(my(5,2,3));
+console.log(my(15,3,10));
+
+function sol(all,st,ed){
+	function count(bw,fw){
+		if(fw==0)return 1;
+		return 1+fw*count(fw-1,bw);
+		//1은 앞에서 곱한 값들 그대로 더해줄라고ㄷㄷ
+	}
+	
+	if(st==ed){
+		console.log('1');
+	}else if(st<ed){
+		console.log(count(ed-2,all-ed));
+	}else{
+		console.log(count(ed-1,all-ed-1));
+	}
+}
+console.log(sol(15,3,10));
+</script>
