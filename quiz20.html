@@ -1,0 +1,40 @@
+<script>
+function sol1(page,day){
+	let memo={}
+	function search(pages,prev,days){
+		if(memo[[pages,prev,days]])return memo[[pages,prev,days]];
+		if(pages==0)return 1;
+		if(pages<0||days==0)return 0;
+		let sum=0;
+		for(let i=1;i<prev;i++){
+			sum+=search(pages-i,i,days-1);
+		}
+		return memo[[pages,prev,days]]=sum;
+	}
+	return search(page,page+1,day);
+}
+
+function sol2(page,day){
+	var memo={}
+	function search(pages,days){
+		if(memo[[pages,days]])return memo[[pages,days]];
+		
+		if(days==1)return 1;
+		
+		var cnt=0;
+		var oneday=(pages-days*(days-1)/2)/days;
+		for(var i=1;i<=oneday;i++){
+			cnt+=search(pages-i*days,days-1)
+		}
+		return memo[[pages,days]]=cnt
+	}
+	
+	var cnt=0;
+	for(var i=1;i<=day;i++){
+		cnt+=search(page,i);
+	}
+	return cnt;
+}
+console.log(sol2(100,2));
+console.log(sol2(180,14));
+</script>
