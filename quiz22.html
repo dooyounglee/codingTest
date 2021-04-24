@@ -1,0 +1,26 @@
+<script>
+function sol(n){
+  let sum=0;
+
+  function split(cnt){
+    let s=0;
+    if(cnt<6)s++;
+    for(let i=2;i<=5;i++){
+      if(cnt-i*2>1){
+        s+=split(cnt-i*2);
+      }else if(cnt-i*2==0){
+        s++;
+      }
+    }
+    return s;
+  }
+
+  for(let i=2;i<n;i++){
+    if(n%i==0){
+      sum+=split(i);
+    }
+  }
+  return sum;
+}
+console.log(my(100));
+</script>
