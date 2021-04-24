@@ -1,0 +1,44 @@
+<script>
+function sol1(row,col){
+	var board=new Array(row.length)
+	var cost=new Array(row.length)
+	for(var i=0;i<row.length;i++){
+		board[i]=new Array(col.length)
+		cost[i]=new Array(col.length)
+		for(var j=0;j<col.length;j++){
+			board[i][j]=row[i]+col[j]
+			cost[i][j]=2000;
+		}
+	}
+	
+	cost[0][0]=board[0][0]
+	
+	var que=[[0,0]]
+	while(que.length>0){
+		que.sort((a,b)=>cost[a[0]][a[1]]<cost[b[0]][b[1]])
+		
+		var r,c;
+		[r,c]=que.shift();
+
+		[[1,0],[0,1]].forEach(function(d){
+			var x,y;
+			[x,y]=[r+d[0],c+d[1]]
+			if((x>=0) && (x<row.length) &&
+			   (y>=0) && (y<col.length)){
+				if(cost[x][y]>cost[r][c]+board[x][y]){
+					cost[x][y]=cost[r][c]+board[x][y]
+					que.push([x,y])
+				}
+			}
+			//if(d[0]==0 && d[1]==1 && que.length>=1){console.log(board[x][y])}
+		})
+		console.log(que[0])
+		console.log('----------')
+		
+	}
+	
+	return cost[row.length-1][col.length-1]
+}
+//console.log(sol1([8,6,8,9,3,4,1,7,6,1],[5,1,1,9,1,6,9,0,9,6]));
+console.log(sol1([4,8,1,7,0,6,9,2,5,3],[3,5,0,8,1,4,2,6,7,9]));
+</script>
