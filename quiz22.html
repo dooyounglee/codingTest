@@ -4,23 +4,30 @@ function sol(n){
 
   function split(cnt){
     let s=0;
-    if(cnt<6)s++;
+    if(cnt<6)s++;//6미만이라 통로 안넣는 경우
     for(let i=2;i<=5;i++){
       if(cnt-i*2>1){
         s+=split(cnt-i*2);
-      }else if(cnt-i*2==0){
+      }else if(cnt-i*2==0){//가운데 통로 넣기
         s++;
       }
     }
     return s;
   }
 
+  //가로세로2칸 이상인 사각형으로 쪼개고
   for(let i=2;i<n;i++){
     if(n%i==0){
       sum+=split(i);
     }
   }
+  
   return sum;
 }
 console.log(my(100));
 </script>
+<!--
+가로세로2칸 이상인 사각형으로 쪼개고
+쪼갠 후 가로길이 값만 으로 덩어리로 쪼갤 방법을 생각
+i=2~5 덩어리로 쪼개고, 좌우 i씩 떼어낸 나머지 값으로 재귀
+-->
