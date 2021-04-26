@@ -18,4 +18,55 @@ function my(n){
 	return arr[n];
 }
 console.log(my(12));
+
+function sol1(n){
+	var memo={[[n,n]]:1};
+	function search(duo,trio){
+		if(memo[[duo,trio]])return memo[[duo,trio]];
+		if((duo>n)||(trio>n))return 0;
+		var cnt=0;
+		if(duo==trio){
+			cnt+=2*search(duo+1,trio);
+			cnt+=search(duo+1,trio+1);
+			cnt+=search(duo+2,trio);
+		}else if(duo<trio){
+			cnt+=2*search(duo+1,trio);
+			cnt+=search(duo+2,trio);
+		}else{
+			cnt+=4*search(duo,trio+1);
+			cnt+=search(duo,trio+2);
+		}
+		return memo[[duo,trio]]=cnt;
+	}
+	return search(0,0);
+}
+console.log(sol1(12));
+
+function sol2(N){
+	var duo_memo=[1];
+	function duo(n){
+		if(duo_memo[n])return duo_memo[n];
+		if(n<0)return 0;
+		return duo_memo[n]=duo(n-1)*2+duo(n-2);
+	}
+	
+	var trio_memo=[1];
+	function trio(n){
+		if(trio_memo[n])return trio_memo[n];
+		if(n<0)return 0;
+		return trio_memo[n]=trio(n-1)*4+trio(n-2);
+	}
+	
+	var memo=[];
+	function search(n){
+		if(memo[n])return memo[n];
+		var sum=duo(n)*trio(n);
+		for(var i=0;i<n;i++){
+			sum+=duo(i)*trio(n)*search(n-i-1);
+		}
+		return memo[n]=sum;
+	}
+	return search(N)
+}
+console.log(sol2(12));
 </script>
