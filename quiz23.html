@@ -1,0 +1,21 @@
+<script>
+function my(n){
+	let arr=[1,9];
+	arr.push(9*arr[1]+(4+16+1));
+	arr.push(9*arr[2]+(4+16+1)*arr[1]+16);
+	if(n<=3)return arr[n];
+	for(let i=4;i<=n;i++){
+		let tmp=9*arr[i-1]+(4+16+1)*arr[i-2]+16*arr[i-3];
+		for(var j=0;j<i-3;j++){
+			if(j%2==0){
+				tmp+=20*arr[i-4-j]
+			}else{
+				tmp+=16*arr[i-4-j]
+			}
+		}
+		arr.push(tmp)
+	}
+	return arr[n];
+}
+console.log(my(12));
+</script>
