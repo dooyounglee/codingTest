@@ -1,0 +1,40 @@
+<script>
+function sol1(N){
+	var memo=[1,1];
+	function tree(n){
+		if(memo[n])return memo[n];
+		
+		var cnt=0;
+		for(var i=1;i<=n;i++){
+			cnt+=tree(i-1)*tree(n-i);
+		}
+		return memo[n]=cnt;
+	}
+	
+	if(N%2==0){
+		return 0;
+	}else{
+		return tree((N-1)/2);
+	}
+}
+console.log(sol1(39));
+
+function sol2(N){
+	var memo={0:1}
+	function catalan(n){
+		if(memo[n])return memo[n];
+		
+		var cnt=0;
+		for(var i=0;i<n;i++){
+			cnt+=catalan(i)*catalan(n-1-i);
+		}
+		return memo[n]=cnt;
+	}
+	if(N%2==0){
+		return 0;
+	}else{
+		return catalan((N-1)/2);
+	}
+}
+console.log(sol2(39));
+</script>
