@@ -14,4 +14,21 @@ function my(A,B,L){
 	return game(A,B,L);
 }
 console.log(my(10,10,24));
+
+function sol2(A,B,L){
+	let memo={};
+	let T=A+B;
+	function game(a,l){
+		if(memo[[a,l]])return memo[[a,l]];
+		if(a==0||a==T)return 1;
+		if(l==0)return 0;
+		let sum=0;
+		sum+=game(a+1,l-1)
+		sum+=game(a-1,l-1)
+		sum+=game(a,l-1)
+		return memo[[a,l]]=sum
+	}
+	return game(A,L);
+}
+console.log(sol2(10,10,24));
 </script>
