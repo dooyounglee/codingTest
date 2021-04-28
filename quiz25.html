@@ -1,0 +1,17 @@
+<script>
+function my(A,B,L){
+	let memo={};
+	function game(a,b,l){
+		if(memo[[a,b,l]])return memo[[a,b,l]];
+		if(a==0||b==0)return 1;
+		if(l==0)return 0;
+		let sum=0;
+		sum+=game(a+1,b-1,l-1)
+		sum+=game(a-1,b+1,l-1)
+		sum+=game(a,b,l-1)
+		return memo[[a,b,l]]=sum
+	}
+	return game(A,B,L);
+}
+console.log(my(10,10,24));
+</script>
