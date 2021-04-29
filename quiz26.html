@@ -1,0 +1,30 @@
+<script>
+function my(A,B,L){
+	let memo={};
+	function game(a,b,l){
+		if(memo[[a,b,l]])return memo[[a,b,l]];
+		if(a==0||b==0||l<1)return 0;
+		if(l==2){console.log("["+a+","+b+","+l+"]="+(a+b-l));return a+b-l;}
+		if(l==1)return 0;
+		let sum=0;
+		// for(let i=0;i<a;i++){
+		// 	for(let j=0;j<b;j++){
+		// 		if(i+j==0)continue;
+		// 		if(i==0||j==0){limit=l-1;}else{limit=l-2;}
+		// 		sum+=game(a-i,b-j,limit);
+		// 	}
+		// }
+		for(let i=1;i<a;i++){
+			sum+=game(i,b,l-1);
+		}
+		for(let i=1;i<b;i++){
+			sum+=game(a,i,l-1);
+		}
+		console.log("["+a+","+b+","+l+"]="+sum)
+		return memo[[a,b,l]]=sum
+	}
+	return game(A,B,L);
+}
+console.log(my(4,3,3));
+//console.log(my(20,20,10));
+</script>
