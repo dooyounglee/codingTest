@@ -1,0 +1,57 @@
+<script>
+function my(H,S){
+	let memo={};
+	function game(h,s){
+		if(memo[[h,s]])return memo[[h,s]];
+		if(h==1 && s<=5)return 1;
+		if(h<=0 || s<=0)return 0;
+		
+		let sum=0;
+		for(let i=5;i>=1;i--){
+			sum+=game(h-1,s-i);
+		}
+		return memo[[h,s]]=sum;
+	}
+	return game(H,S);
+}
+console.log(my(3,12));
+//console.log(my(10,30));
+//console.log(my(18,72));
+
+//분배->배열
+function sol(H,S){
+	function calc(log){
+		var result=1;
+		var n=0;
+		for(var i=1;i<log.length;i++){
+			n+=log[i];
+		}
+		for(var i=1;i<=n;i++){
+			result*=i;
+		}
+		for(var i=1;i<log.length;i++){
+			var div=1;
+			for(var j=1;j<=log[i];j++)div*=j;
+			result/=div;
+		}
+		return result;
+	}
+	
+	function golf(h,s,log){
+		if(h<=0||s<=0)return 0;
+		if(h==1 && s<=5)return calc(log);
+		
+		let sum=0;
+		for(let i=5;i>=1;i--){
+			log[i]+=1;
+			sum+=golf(h-1,s-i,log);
+			log[i]-=1;
+			if(log[i]>0)break;
+		}
+		return sum;
+	}
+	return golf(H,S,[0,0,0,0,0,0]);
+}
+console.log(sol(3,12));
+console.log(my(18,72));
+</script>
