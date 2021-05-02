@@ -1,0 +1,39 @@
+<script>
+function sol1(N){
+	Array.prototype.permutation = function(n){
+		var result=[];
+		for(var i=0;i<this.length;i++){
+			if(n>1){
+				var remain=this.slice(0);
+				remain.splice(i,1);
+				var permu=remain.permutation(n-1);
+				for(var j=0;j<permu.length;j++){
+					result.push([this[i]].concat(permu[j]));
+				}
+			}else{
+				result.push([this[i]]);
+			}
+		}
+		return result;
+	}
+	
+	var unsort=0;
+	var sorted=new Array(N);
+	for(var i=0;i<N;i++){
+		sorted[i]=i+1;
+	}
+	var permu=sorted.permutation(N);
+	for(var i=0;i<permu.length;i++){
+		for(var j=0;j<N;j++){
+			var pos=permu[i][j]-1;
+			var temp=permu[i][j];
+			permu[i][j]=permu[i][pos];
+			permu[i][pos]=temp;
+		}
+		if(permu[i].toString() != sorted.toString()) unsort++;
+	}
+	return unsort;
+}
+console.log(sol1(4));
+console.log(sol1(8));
+</script>
