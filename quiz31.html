@@ -1,0 +1,39 @@
+<script>
+function sol1(N){
+	//Hamming weight 알고리즘. 2진수의 1개수
+	function bit_count(n){
+		n=(n&0x55555555)+(n>>1&0x55555555);
+		n=(n&0x33333333)+(n>>2&0x33333333);
+		n=(n&0x0f0f0f0f)+(n>>4&0x0f0f0f0f);
+		n=(n&0x00ff00ff)+(n>>8&0x00ff00ff);
+		return (n&0x0000ffff)+(n>>16&0x0000ffff);
+	}
+	
+	var cnt=0;
+	for(var i=0;i<Math.pow(2,N)-1;i++){
+		var a=bit_count(i);
+		var b=N-a;
+		if((a>1)&&(b>1)){
+			cnt+=(a-1)*(b-1);
+		}
+	}
+	return cnt;
+}
+console.log(sol1(14));
+
+function sol2(N){
+	let memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(r==0||r==n)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	let cnt=0;
+	for(let i=2;i<=N-2;i++){
+		cnt+=nCr(N,i)*(i-1)*(N-i-1);
+	}
+	return cnt;
+}
+console.log(sol2(14));
+</script>
