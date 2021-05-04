@@ -1,0 +1,33 @@
+<script>
+function my(M,N){
+	let min=Math.max(N-2*M,0);
+	let max=(N-M)/2;
+	console.log("min:"+min)
+	console.log("max:"+max)
+	let cnt=0;
+	for(let i=min;i<=max;i++){
+		cnt++;
+	}
+	return cnt;
+}
+console.log(my(5,10));
+console.log(my(543210,987654));
+
+function sol2(M,N){
+	let x=Math.max(N-2*M,0);
+	return Math.floor((N-M)/2-x+1);
+}
+console.log(sol2(5,10));
+console.log(sol2(543210,987654));
+
+function sol3(M,N){
+	var x=2*M-N;
+	if(x>0){
+		return Math.floor((3*M-N)/2-x+1);
+	}else{
+		return Math.floor((3*M-N)/2+1);
+	}
+}
+console.log(sol3(5,10));
+console.log(sol3(543210,987654));
+</script>
