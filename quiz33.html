@@ -29,4 +29,24 @@ function sol1(N){
 	return search(cell,0,1);
 }
 console.log(sol1(12));
+
+function sol2(N){
+	var memo={[[0,0]]:1};
+	function search(bw,fw){
+		if(memo[[bw,fw]])return memo[[bw,fw]];
+		if(fw==0)return 0;
+		
+		var cnt=0;
+		for(var i=0;i<=fw;i++){
+			cnt+=search(fw-i,bw+i-1);
+		}
+		return memo[[bw,fw]]=cnt;
+	}
+	if(N%2==0){
+		return search(0,N-2);//왜 N-1아니고 N-2인가..
+	}else{
+		return 0;
+	}
+}
+console.log(sol2(12));
 </script>
