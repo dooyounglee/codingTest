@@ -1,0 +1,32 @@
+<script>
+function sol1(N){
+	function search(cell,pos,dir){
+		if(pos==N-1){
+			for(var i=0;i<N-1;i++){
+				if(cell[i]==0)return 0;
+			}
+			return 1;
+		}
+		
+		var cnt=0;
+		for(var i=1;i<N-1;i++){//pos자리에 i값일 때
+			if((pos+dir*i)>=0 && (pos+dir*i<N)){
+				if(cell[pos+dir*i]==0){
+					cell[pos]=i;//pos자리에 i값일 때를 가정한거라서 i넣고
+					cnt+=search(cell,pos+dir*i,-dir);
+					cell[pos]=0;//pos자리에 다른 i값일 때도 계산해야 되니까 초기화
+				}
+			}
+		}
+		return cnt;
+	}
+	
+	var cell=[];
+	for(var i=0;i<N;i++){
+		cell[i]=0;
+	}
+	
+	return search(cell,0,1);
+}
+console.log(sol1(12));
+</script>
