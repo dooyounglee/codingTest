@@ -1,0 +1,42 @@
+<script>
+function my(N){
+	let sum=0;
+	let max=N/2;
+	for(let i=0;i<max;i++){
+		sum+=Math.pow(9,i)*Math.pow(49,max-i-1);//9맞음
+		//sum+=Math.pow(7,i)*Math.pow(49,max-i-1);//7로 해야 책이랑 맞거든?
+		//근데 6-------9, 9------6 이것도 앞뒤 똑같잖아. 이 두 경우 있어야지.
+	}
+	return 21*sum;
+}
+console.log(my(12));
+
+function sol1(N){
+	var memo={0:0,1:1}
+	function check(n){
+		if(memo[n]!=undefined)return memo[n];
+		
+		var cnt=0;
+		for(var i=0;i<7;i++){
+			cnt+=check(n-2)+i*Math.pow(7,n-2);
+		}
+		return memo[n]=cnt;
+	}
+	return check(N);
+}
+console.log(sol1(12));
+console.log(sol1(2));
+console.log(sol1(4));
+
+function sol2(N){
+	function check(n){
+		if(n<=1)return n;
+		return 7*check(n-2)+21*Math.pow(7,n-2);
+		//return 9*check(n-2)+21*Math.pow(7,n-2);//9가 맞다고 ㅡㅡ
+	}
+	return check(N);
+}
+console.log(sol2(12));
+console.log(sol2(2));
+console.log(sol2(4));
+</script>
