@@ -20,4 +20,21 @@ console.log(sol1(1,2));
 console.log(sol1(2,3));
 console.log(sol1(3,5));//10개 라던데;;
 console.log(sol1(10,50));
+
+function sol2(N,limit){
+	var memo={};
+	function search(m,n){
+		if(memo[[m,n]])return memo[[m,n]];
+		if(n<0)return 0;
+		if(m==0) return n==0?1:0;
+		
+		var cnt=0;
+		for(var i=1;i<=9;i++){
+			cnt+=search(m-1,n-i);
+		}
+		return memo[[m,n]]=cnt;
+	}
+	return search(N,limit);
+}
+console.log(sol2(10,50));
 </script>
