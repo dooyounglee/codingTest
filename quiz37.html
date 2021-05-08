@@ -1,7 +1,7 @@
 <script>
 function sol1(W,H){
 	function search(n,seat){
-		if(n<0)return 1;
+		if(n<0)return 1;//n=0까지 배열할 수 있을 시 return 1;
 		
 		var cnt=0;
 		for(var i=0;i<W*H;i++){
@@ -23,5 +23,38 @@ function sol1(W,H){
 	return search(W*H-1,seat);
 }
 console.log(sol1(2,3));
-console.log(sol1(4,4));
+
+function sol2(W,H){
+	var memo={};
+	function search(n,seat){
+		if(memo[n,seat])return memo[n,seat];
+		if(n<0)return 1;
+		
+		var cnt=0;
+		for(var i=0;i<W*H;i++){
+			if(Math.floor(i/W)!=Math.floor(n/W) &&	i%W!=n%W){
+				if((seat&(1<<i))==0){//seat비트의 i자리번째 0일 경우
+					cnt+=search(n-1,seat|(1<<i));//seat비트 i자리에 1넣은걸루
+				}
+			}
+		}
+		return memo[n,seat]=cnt;
+	}
+	return search(W*H-1,0);//처음엔 0=000000000000000배열비트
+}
+console.log(sol2(2,3));
+//console.log(sol2(4,4));
+
+console.log(1<<0)//1=1
+console.log(1<<1)//2=10
+console.log(1<<2)//4=100
+console.log(1<<3)//8=1000
+console.log(1<<4)//16=10000
+console.log(1<<5)//32=100000
+console.log(2<<0)//2
+console.log(2<<1)//4
+console.log(2<<2)//8
+console.log(2<<3)//16
+console.log(2<<4)//32
+console.log(2<<5)//64
 </script>
