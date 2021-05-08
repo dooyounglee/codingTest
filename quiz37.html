@@ -1,0 +1,27 @@
+<script>
+function sol1(W,H){
+	function search(n,seat){
+		if(n<0)return 1;
+		
+		var cnt=0;
+		for(var i=0;i<W*H;i++){
+			if(Math.floor(i/W)!=Math.floor(n/W) &&	i%W!=n%W){
+				if(seat[i]==0){
+					seat[i]=n;
+					cnt+=search(n-1,seat);
+					seat[i]=0;
+				}
+			}
+		}
+		return cnt;
+	}
+	
+	var seat=new Array(W*H);
+	for(var i=0;i<W*H;i++){
+		seat[i]=0;
+	}
+	return search(W*H-1,seat);
+}
+console.log(sol1(2,3));
+console.log(sol1(4,4));
+</script>
