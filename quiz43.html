@@ -1,0 +1,16 @@
+<script>
+function my(N){
+	//3진수 최고차 찾기
+	let max=0;
+	while(1){
+		if(Math.pow(3,max)>=N){
+			max--;
+			break;
+		}
+		max++;
+	}
+	
+	return Math.pow(2,max+1);
+}
+console.log(my(12345));
+</script>
