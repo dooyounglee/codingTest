@@ -1,0 +1,44 @@
+<script>
+function my(M){
+	let arr=[[1,0],[0,1],[-1,0],[0,-1]];
+	
+	let PT=[0,0];
+	function game(pt,acc,trace,last){
+		if(pt[0]==4 && pt[1]==3 && acc==M)return 1;
+		
+		let cnt=0;
+		for(let i=0;i<arr.length;i++){
+			var temp=[pt[0]+arr[i][0],pt[1]+arr[i][1]]
+			if(temp[0]>=0 && temp[0]<=4 && temp[1]>=0 && temp[1]<=3){
+				if(trace[pt] == undefined || (trace[pt] != undefined && trace[pt].indexOf(i)==-1)){
+					if(trace[pt]==undefined){
+						trace[pt]=[];
+					}
+					trace[pt].push(i);
+					if(trace[temp]==undefined){
+						trace[temp]=[];
+					}
+					let new_i=(i+2)%4
+					trace[temp].push(new_i);
+					
+					if(last==i){
+						cnt+=game(temp,acc,trace,i)
+					}else{
+						cnt+=game(temp,acc+1,trace,i)
+					}
+					let idx_pt=trace[pt].indexOf(i);
+					trace[pt].splice(idx_pt,1);
+					let idx_temp=trace[temp].indexOf(new_i);
+					trace[temp].splice(idx_temp,1);
+				}
+            }
+		}
+		return cnt;
+	}
+	let trace={};
+	return game(PT,-1,trace,-1);
+}
+console.log(my(2));
+console.log(my(21));
+console.log(my(22));
+</script>
