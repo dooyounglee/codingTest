@@ -41,4 +41,51 @@ function my(M){
 console.log(my(2));
 console.log(my(21));
 console.log(my(22));
+
+//맞아?? 2일때는 안맞는데? 한칸씩 가는거만 생각한거 아님?
+function sol1(N){
+	var W=5;var H=4;
+	var dirs={};
+	[dirs[1],dirs[-1],dirs[W],dirs[-W]]=[0b1,0b10,0b100,0b1000];
+	
+	function search(pos,dir,used,n){
+		if(n<0) return 0;
+		if(pos+dir==W*H-1)return (n==0)?1:0;
+		
+		used[pos] |=dirs[dir];
+		pos+=dir;
+		used[pos] |=dirs[-dir];
+		
+		var cnt=0;
+		for(var d in dirs){
+			var m=n-((dir==d)?0:1);
+			if((used[pos] & dirs[d])==0) cnt+=search(pos,parseInt(d),used,m);
+		}
+		used[pos]^= dirs[-dir];
+		pos-=dir;
+		used[pos]^= dirs[dir];
+		return cnt;
+	}
+	
+	var used=new Array(W*H);
+	for(var i=0;i<W*H;i++){
+		used[i]=0;
+	}
+	for(var w=0;w<W;w++){
+		used[w] |= dirs[-W];
+		used[w+(H-1)*W] |= dirs[W];
+	}
+	for(var h=0;h<H;h++){
+		used[h*W] |= dirs[-1];
+		used[(h+1)*W-1] |= dirs[1];
+	}
+	
+	var cnt=0;
+	cnt+=search(0,1,used,N);
+	cnt+=search(0,W,used,N);
+	return cnt;
+}
+console.log(sol1(5));
+console.log(sol1(21));
+console.log(sol1(22));
 </script>
