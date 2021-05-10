@@ -1,0 +1,28 @@
+<script>
+function sol1(N){
+	if(N<=3){return 0;}
+	else{
+		var factorial=1;
+		for(var i=1;i<=N;i++) factorial*=i;
+	}
+	
+	return factorial*(N-3)/6;//nC4 * (n-2-1)! * 2! * 2! //왤까
+}
+console.log(sol1(4));
+console.log(sol1(5));
+console.log(sol1(9));
+
+//이건 아님.
+function sol2(N){
+	if(N<=3){return 0;}
+	else{
+		var factorial=1;
+		for(var i=1;i<=N;i++) factorial*=i;
+	}
+	
+	return factorial/6;
+}
+console.log(sol2(4));
+console.log(sol2(5));
+console.log(sol2(9));
+</script>
