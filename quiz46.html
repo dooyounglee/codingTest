@@ -1,0 +1,22 @@
+<script>
+function my(N,K){
+	//let arr=['A','B','C','D','E','F'];
+	function game(len,last_cnt,last,acc){
+		if(len==N && acc<N){return 1;}//길이=N && 누적변환길이<N일때
+		else if(len==N && acc>=N){return 0;}
+		
+		let cnt=0;
+		for(let i=0;i<K;i++){
+			if(last==i){
+				cnt+=game(len+1,last_cnt+1,i,acc);
+			}else{
+				cnt+=game(len+1,1,i,acc+2);
+			}
+		}
+		return cnt;
+	}
+	return game(0,0,-1,0);
+}
+console.log(my(5,2));
+console.log(my(6,6));
+</script>
