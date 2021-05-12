@@ -1,0 +1,76 @@
+<script>
+function my(M,N){
+	function game(remain,acc,all){
+		if(remain.length==0){
+			if(Math.max(...acc)==Math.min(...acc)){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+		
+		let min=Math.min(...acc);
+		let min_idx=acc.indexOf(min);
+		let cnt=0;
+		for(let i=0;i<remain.length;i++){
+			let temp=remain[i];
+			let temp_arr=[...remain];
+			temp_arr.splice(i,1);
+			acc[min_idx]+=temp;
+			cnt+=game(temp_arr,acc);
+			acc[min_idx]-=temp;
+		}
+		return cnt;
+	}
+	
+	let REMAIN=new Array(M);
+	for(let i=0;i<M;i++){
+		REMAIN[i]=i+1;
+	}
+	
+	let arr=new Array(N);//N명 각각 점수 누적
+	for(let i=0;i<N;i++){
+		arr[i]=0;
+	}
+	let ALL=new Array(N);//N명 각각 점수 누적
+	for(let i=0;i<N;i++){
+		ALL[i]=[];
+	}
+	return game(REMAIN,arr,ALL);
+}
+console.log(my(3,2));
+console.log(my(7,2));
+
+function sol1(M,N){
+	var sum=M*(M+1)/2;
+	var goal=sum/N;
+	
+	function search(n,used,sum,card){
+		if(n==1)return 1;
+		
+		var cnt=0;
+		used[card]=true;
+		sum+=card;
+		if(sum==goal){
+			cnt+=search(n-1,used,0,used.lastIndexOf(false));//제일큰수라서 last?
+		}else{
+			for(var i=Math.min(card-1,goal-sum);i>0;i--){
+				if(!used[i])cnt+=search(n,used,sum,i)
+			}
+		}
+		used[card]=false;
+		return cnt;
+	}
+	
+	if(sum%N==0){
+		var used=new Array(M+1);
+		for(var i=0;i<M+1;i++)used[i]=false;
+		return search(N,used,0,M);
+	}else{
+		return 0;
+	}
+}
+console.log(sol1(3,2));
+console.log(sol1(7,2));
+console.log(sol1(16,4));
+</script>
