@@ -1,0 +1,18 @@
+<script>
+function my(N){
+	let arr=[0,0];
+	arr[2]=3/2;
+	
+	let i=3;
+	while(1){
+		arr[i]=arr[i-1]+(1/i);
+		if(arr[i]>N){
+			break;
+		}else{
+			i++;
+		}
+	}
+	return i;
+}
+console.log(my(10));
+</script>
