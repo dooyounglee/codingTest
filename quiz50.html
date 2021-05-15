@@ -1,0 +1,92 @@
+<script>
+function my(N){
+	function pcom(n){
+		let i=2;
+		let obj={};
+		while(1){
+			if(n%i==0){
+				if(obj[i]){obj[i]++}
+				else{obj[i]=1;}
+				n=n/i;
+			}else{
+				i++;
+				if(N/2<i)break;
+			}
+		}
+		return obj;
+	}
+	
+	return pcom(N);
+}
+console.log(my(1587600));
+
+function my1(N){
+	let arr=[];
+	for(let i=2;i<=8;i++){
+		if(i==4)continue;
+		if(N%i==0)arr.push(i);
+	}
+	console.log(arr);
+	function game(n,arr_prod){
+		let acc_prod=1;
+		for(let j=0;j<arr_prod.length;j++){
+			acc_prod*=arr_prod[j];
+		}
+		let root=Math.floor(Math.sqrt(acc_prod));
+		if(acc_prod!=1 && acc_prod!=N && acc_prod==root*root)return 0;
+		//if(acc_prod==N){return 1;}
+		if(n<=1){console.log(arr_prod);return 1;}
+		
+		let cnt=0;
+		for(let i=0;i<arr.length;i++){
+			if(n%arr[i]==0){
+				let temp=[...arr_prod];
+				//temp.push(arr[i]);
+				cnt+=game(n/arr[i],[arr[i]].concat(temp));
+			}
+		}
+		return cnt;
+	}
+	
+	return game(N,[]);
+}
+console.log(my1(16));
+console.log(my1(36));
+//console.log(my1(1587600));
+
+function sol1(N){
+	let arr=[];
+	function has_square(used){
+		var result=false;
+		var value=1;
+		for(var i=0;i<used.length;i++){
+			value*=used[i];
+			var sqr=Math.floor(Math.sqrt(value));//아 하나씩 곱할때마다 체크해야 돼??
+			if(value==sqr*sqr){
+				result=true;
+				break;
+			}
+		}
+		return result;
+	}
+	function seq(remain,used){
+		if(remain<=1){console.log(used);return 1;}
+		var cnt=0;
+		var numbers=[2,3,5,6,7,8];
+		
+		for(let i=0;i<numbers.length;i++){
+			if(remain%numbers[i]==0){
+				if(!has_square(used)){
+					cnt+=seq(remain/numbers[i],[numbers[i]].concat(used));
+				}
+			}
+		}
+		return cnt;
+	}
+	
+	return seq(N,[]);
+}
+console.log(sol1(16));
+console.log(sol1(36));
+//console.log(sol1(1587600));
+</script>
