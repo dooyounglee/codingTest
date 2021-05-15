@@ -1,0 +1,108 @@
+<script>
+function my(M,N){
+	function game(arr,acc){
+		if(acc.length==4){
+			
+			if(!play(acc)){
+				//console.log(acc);
+				return 1;
+			}
+		}
+		
+		let cnt=0;
+		for(var i=0;i<arr.length;i++){
+			let temp=[...acc]
+			if(Math.max(...temp)<arr[i]){
+				temp.push(arr[i]);
+				let temp_arr=[...arr];
+				temp_arr.splice(i,1);
+				cnt+=game(temp_arr,temp);
+			}
+		}
+		return cnt;
+	}
+	
+	function play(arr){
+		let result=false;
+		arr.sort((a,b)=>a-b);
+		      if(arr[0]+arr[1]+arr[2]==arr[3]){
+			result=true;
+		}else if(arr[0]+arr[1]==arr[2]+arr[3]){
+			result=true;
+		}else if(arr[0]+arr[2]==arr[1]+arr[3]){
+			result=true;
+		}else if(arr[0]+arr[3]==arr[1]+arr[2]){
+			result=true;
+		}else if(arr[0]+arr[1]==arr[2]){
+			result=true;
+		}else if(arr[0]+arr[1]==arr[3]){
+			result=true;
+		}else if(arr[1]+arr[2]==arr[3]){
+			result=true;
+		}else if(arr[0]+arr[2]==arr[3]){
+			result=true;
+		}
+		return result;
+	}
+	
+	let arr1=[];
+	for(let i=0;i<M;i++){
+		arr1.push(i+1);
+	}
+	
+	return game(arr1,[]);
+}
+//console.log(my(8,4));
+//console.log(my(20,4));
+
+function sol1(M,N){
+	function search(n,prev,used){
+		if(n==0)return 1;
+		var cnt=0;
+		for(var i=prev;i<=M;i++){
+			if((used&(used<<i))==0){
+				cnt+=search(n-1,i+1,used|(used<<i));
+			}
+		}
+		return cnt;
+	}
+	
+	return search(N,1,1);
+}
+console.log(sol1(8,4));
+console.log(sol1(20,4));
+console.log(sol1(50,4));
+
+function sol2(M,N){
+	function check(used,x){
+		var result=[];
+		var temp=used.concat([0]);
+		for(var i=0;i<temp.length;i++){
+			if(temp.indexOf(temp[i]+x)<0){
+				result.push(temp[i]+x);
+			}else{
+				return null;
+			}
+			result.push(temp[i]);
+		}
+		return result;
+	}
+	
+	function search(n,prev,used){
+		if(n==0)return 1;
+		var cnt=0;
+		for(var i=prev;i<=M;i++){
+			var next_used=check(used,i);
+			if(next_used){
+				cnt+=search(n-1,i+1,next_used);
+			}
+		}
+		return cnt;
+	}
+	
+	return search(N,1,[]);
+}
+console.log(sol2(8,4));
+console.log(sol2(20,4));
+console.log(sol2(50,4));
+</script>
