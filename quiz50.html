@@ -31,11 +31,13 @@ function my1(N){
 		let acc_prod=1;
 		for(let j=0;j<arr_prod.length;j++){
 			acc_prod*=arr_prod[j];
+			let root=Math.floor(Math.sqrt(acc_prod));//여기다 옮기니까 똑같아 지네;;
+			if(acc_prod!=1 && acc_prod!=N && acc_prod==root*root)return 0;//이렇게 해야.. 처음부터 연속이 아니고 중간부터 연속인거 뽑은거도 걸러주겠네
 		}
-		let root=Math.floor(Math.sqrt(acc_prod));
-		if(acc_prod!=1 && acc_prod!=N && acc_prod==root*root)return 0;
+		//let root=Math.floor(Math.sqrt(acc_prod));
+		//if(acc_prod!=1 && acc_prod!=N && acc_prod==root*root)return 0;
 		//if(acc_prod==N){return 1;}
-		if(n<=1){console.log(arr_prod);return 1;}
+		if(n<=1){return 1;}
 		
 		let cnt=0;
 		for(let i=0;i<arr.length;i++){
@@ -70,7 +72,7 @@ function sol1(N){
 		return result;
 	}
 	function seq(remain,used){
-		if(remain<=1){console.log(used);return 1;}
+		if(remain<=1){return 1;}
 		var cnt=0;
 		var numbers=[2,3,5,6,7,8];
 		
