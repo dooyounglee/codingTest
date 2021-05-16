@@ -54,7 +54,7 @@ function my1(N){
 }
 console.log(my1(16));
 console.log(my1(36));
-//console.log(my1(1587600));
+console.log(my1(1587600));
 
 function sol1(N){
 	let arr=[];
@@ -90,5 +90,35 @@ function sol1(N){
 }
 console.log(sol1(16));
 console.log(sol1(36));
-//console.log(sol1(1587600));
+console.log(sol1(1587600));
+
+function sol2(N){
+	var bit={2:0b0001,3:0b0010,5:0b0100,6:0b0011,7:0b1000,8:0b0001};
+	
+	function seq(remain,used){
+		console.log(used);
+		if(remain<=1){return 1;}
+		
+		var cnt=0;
+		for(var i in bit){
+			if(remain%i==0 && used.indexOf(0)<0){
+				var used_map=used.map(j=>j^bit[i]);//비트연산을 좀더 볼 필요가..
+				cnt+=seq(remain/i,[bit[i]].concat(used_map));
+			}
+		}
+		return cnt;
+	}
+	
+	return seq(N,[]);
+}
+console.log(sol2(16));
+console.log(sol2(36));
+//console.log(sol2(1587600));
+
+console.log(0b0001^0b0001);
+console.log(0b0001^0b0010);
+console.log(0b0001^0b0100);
+console.log(0b0001^0b0011);
+console.log(0b0001^0b1000);
+console.log(0b0001^0b0001);
 </script>

@@ -1,0 +1,33 @@
+<script>
+function my(N){
+	let arr_all=[];
+	function game(last,arr){
+		arr_all.push(arr);
+		for(let i=last-1;i>=1;i--){
+			var temp=[...arr];
+			game(i,temp.concat([i]));
+		}
+	}
+	game(N,[N]);
+	//console.log(arr_all);
+	
+	function game1(arr){
+		let val=1;
+		for(let i=1;i<=N;i++){
+			if(arr.indexOf(i)>-1)continue;
+			val*=(arr.filter(x=>x>i).length);
+		}
+		return val;
+	}
+	
+	let cnt=0;
+	for(let i=0;i<arr_all.length;i++){
+		cnt+=game1(arr_all[i]);
+	}
+	return cnt;
+}
+console.log(my(3));
+console.log(my(4));
+console.log(my(5));
+console.log(my(16));
+</script>
