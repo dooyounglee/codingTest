@@ -1,4 +1,5 @@
 <script>
+//아 총합이 아니고 패턴의 최대값이네;;
 function my(N){
 	let arr_all=[];
 	function game(last,arr){
@@ -30,4 +31,83 @@ console.log(my(3));
 console.log(my(4));
 console.log(my(5));
 console.log(my(16));
+
+function my1(N){
+	let arr_all=[];
+	function game(last,arr){
+		arr_all.push(arr);
+		for(let i=last-1;i>=1;i--){
+			var temp=[...arr];
+			game(i,temp.concat([i]));
+		}
+	}
+	game(N,[N]);
+	
+	function game1(arr){
+		let val=1;
+		for(let i=1;i<=N;i++){
+			if(arr.indexOf(i)>-1)continue;
+			val*=(arr.filter(x=>x>i).length);
+		}
+		return val;
+	}
+	
+	let max=0;
+	for(let i=0;i<arr_all.length;i++){
+		max=Math.max(max,game1(arr_all[i]));
+	}
+	return max;
+}
+console.log(my1(3));
+console.log(my1(4));
+console.log(my1(5));
+console.log(my1(16));
+
+function sol1(N){
+	function search(used,remain){
+		var max=0;
+		if(remain.length>0){
+			max=1;
+			for(var i=0;i<remain.length;i++){
+				var cnt=0;
+				for(var j=0;j<used.length;j++){
+					if(remain[i]<used[j])cnt++;
+				}
+				max*=cnt;
+			}
+		}
+		for(var i=0;i<remain.length;i++){
+			if(used[used.length-1]>remain[i]){
+				used.push(remain[i]);
+				remain.splice(i,1);
+				max=Math.max(max,search(used,remain));
+				remain.splice(i,0,used[used.length-1]);
+				used.pop();
+			}
+		}
+		return max;
+	}
+	
+	var remain=new Array();
+	for(var i=1;i<N;i++){
+		remain.push(i);
+	}
+	return search([N],remain);
+}
+console.log(sol1(3));
+console.log(sol1(4));
+console.log(sol1(5));
+console.log(sol1(16));
+
+function sol2(N){
+	var max=0;
+	for(var i=1;i<=N;i++){
+		max=Math.max(max,Math.pow(i,N-i));
+	}
+	return max;
+}
+console.log(sol2(3));
+console.log(sol2(4));
+console.log(sol2(5));
+console.log(sol2(16));
 </script>
