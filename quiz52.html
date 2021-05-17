@@ -1,0 +1,144 @@
+<script>
+//제한30일때 몇번?
+function my(N,L){
+	let arr=[2,3,5,7];
+	
+	function isPrime(n){
+		if(arr.indexOf(n)>-1)return true;
+		
+		let result=true;
+		let sqrt=Math.sqrt(n);
+		
+		for(let i=0;arr[i]<=sqrt;i++){
+			if(n%arr[i]==0){
+				return false;
+			}
+		}
+		arr.push(n);
+		return result;
+	}
+	
+	for(let i=8;i<=N;i++){
+		isPrime(i);
+	}
+	
+	var cnt=0;
+	var sum=0;
+	for(let i=0;i<arr.length;i++){
+		if(sum+arr[i]>L){
+			cnt++;
+			sum=arr[i];
+		}else{
+			sum+=arr[i]
+		}
+	}
+	if(sum>0)cnt++;
+	
+	return cnt;
+}
+console.log(my(20,30));
+
+//500번이려면 제한 최소몇?
+function my1(N,L){
+	let arr=[2,3,5,7];
+	
+	function isPrime(n){
+		if(arr.indexOf(n)>-1)return true;
+		
+		let result=true;
+		let sqrt=Math.sqrt(n);
+		
+		for(let i=0;arr[i]<=sqrt;i++){
+			if(n%arr[i]==0){
+				return false;
+			}
+		}
+		arr.push(n);
+		return result;
+	}
+	
+	for(let i=8;i<=N;i++){
+		isPrime(i);
+	}
+	
+	var arr_sum=arr.reduce((a,b)=>a+b);
+	console.log(arr_sum);
+	let val=parseInt(arr_sum/L);console.log(val);//어림값
+	
+	function count(l){
+		var cnt=0;
+		var sum=0;
+		for(let i=0;i<arr.length;i++){
+			if(sum+arr[i]>l){
+				cnt++;
+				sum=arr[i];
+			}else{
+				sum+=arr[i]
+			}
+		}
+		if(sum>l)return "fail";
+		if(sum>0)cnt++;
+		return cnt;
+	}
+	
+	//횟수를 직접 세보며 조정
+	//하나씩 하지말고 이진탐색으로 해보자..
+	while(1){
+		let temp=count(val);
+		if(temp>L){
+			val++;
+		}else if(temp<L){
+			val--;
+		}else if(temp==L && count(val-1)!=L){
+			return val;
+		}else{
+			val--;
+		}
+	}
+	
+	return "fail";
+}
+console.log(my1(10000,500));
+
+function sol(N,W){
+	var primes=[];
+	for(var i=2;i<N;i++){
+		var flag=true;
+		for(var j=2;j*j<=i;j++){
+			if(i%j==0){
+				flag=false;
+				break;
+			}
+		}
+		if(flag)primes.push(i);
+	}
+	
+	var left=0;
+	var right=0;
+	for(var i=0;i<primes.length;i++){
+		right+=primes[i];
+	}
+	
+	while(left+1<right){
+		var mid=Math.floor((left+right)/2);
+		var cnt=1;
+		var weight=0;
+		for(var i=0;i<primes.length;i++){
+			if(weight+primes[i]<mid){
+				weight+=primes[i];
+			}else{
+				weight=primes[i];
+				cnt++;
+			}
+		}
+		if(W>=cnt){
+			right=mid;
+		}else{
+			left=mid;
+		}
+	}
+	
+	return left;
+}
+console.log(sol(10000,500));
+</script>
