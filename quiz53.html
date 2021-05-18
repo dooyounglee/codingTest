@@ -1,0 +1,59 @@
+<script>
+function sol1(M,N){
+	let primes=[];
+	for(let i=2;i<M;i++){
+		var is_prime=true;
+		for(var j=2;j<=Math.sqrt(i);j++){
+			if(i%j==0){is_prime=false;break;}
+		}
+		if(is_prime)primes.push(i);
+	}
+	
+	var memo={};
+	function search(remain,l,r){
+		if(memo[[remain,l,r]])return memo[[remain,l,r]];
+		if(remain==0)return l==r?1:0;
+		
+		var cnt=0;
+		var use=primes[remain-1];
+		cnt+=search(remain-1,l+use,r);
+		cnt+=search(remain-1,l,r+use);
+		cnt+=search(remain-1,l,r);
+		
+		return memo[[remain,l,r]]=cnt;
+	}
+	
+	return search(primes.length,N,0);
+}
+console.log(sol1(10,2));
+//console.log(sol1(50,5));
+
+function sol2(M,N){
+	let primes=[];
+	for(let i=2;i<M;i++){
+		var is_prime=true;
+		for(var j=2;j<=Math.sqrt(i);j++){
+			if(i%j==0){is_prime=false;break;}
+		}
+		if(is_prime)primes.push(i);
+	}
+	
+	var memo={};
+	function search(remain,d){
+		if(memo[[remain,d]])return memo[[remain,d]];
+		if(remain==0)return d==0?1:0;
+		
+		var cnt=0;
+		var use=primes[remain-1];
+		cnt+=search(remain-1,d+use);
+		cnt+=search(remain-1,d-use);
+		cnt+=search(remain-1,d);
+		
+		return memo[[remain,d]]=cnt;
+	}
+	
+	return search(primes.length,N);
+}
+console.log(sol2(10,2));
+console.log(sol2(50,5));
+</script>
