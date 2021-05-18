@@ -26,7 +26,7 @@ function sol1(M,N){
 	return search(primes.length,N,0);
 }
 console.log(sol1(10,2));
-//console.log(sol1(50,5));
+console.log(sol1(50,5));
 
 function sol2(M,N){
 	let primes=[];
@@ -39,20 +39,20 @@ function sol2(M,N){
 	}
 	
 	var memo={};
-	function search(remain,d){
-		if(memo[[remain,d]])return memo[[remain,d]];
-		if(remain==0)return d==0?1:0;
+	function search(n,i){
+		if(memo[[n,i]])return memo[[n,i]];
+		if(i==primes.length)return n==0?1:0;
 		
 		var cnt=0;
-		var use=primes[remain-1];
-		cnt+=search(remain-1,d+use);
-		cnt+=search(remain-1,d-use);
-		cnt+=search(remain-1,d);
+		var use=primes[i];
+		cnt+=search(n+use,i+1);
+		cnt+=search(Math.abs(n-use),i+1);
+		cnt+=search(n,i+1);
 		
-		return memo[[remain,d]]=cnt;
+		return memo[[n,i]]=cnt;
 	}
 	
-	return search(primes.length,N);
+	return search(N,0);
 }
 console.log(sol2(10,2));
 console.log(sol2(50,5));
