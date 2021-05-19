@@ -1,0 +1,82 @@
+<script>
+function my(M,N){
+	function nCr(n,r){
+		//if(n<r)return 0;
+		if(n==r||r==0)return 1;
+		return nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	let memo={};
+	function game(m,n){
+		if(memo[[m,n]])return memo[[m,n]];
+		if(m==1 && n>0)return 0;
+		if(n==0){
+			if(m==1){return 1;}
+			else{return 0;}
+		}
+		
+		let cnt=0;
+		for(let i=1;i<=m;i++){
+			if(i<m){cnt+=3*game(i,n-1);}
+			else if(i==m){
+				if(m>=3){
+					cnt+=(nCr(m-1,2)+3)*game(m,n-1);
+				}else{
+					cnt+=3*game(m,n-1);
+				}
+			}
+		}
+		return memo[[m,n]]=cnt;
+	}
+	return game(M,N);
+}
+console.log(my(3,2));
+console.log(my(10,6));
+
+function sol1(M,N){
+	var memo={};
+	function nCr(n,r){
+		if(n<r)return 0;
+		if(memo[[n,r]])return memo[[n,r]];
+		if(r==0||n==r)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	function nHr(n,r){
+		return nCr(n+r-1,r);
+	}
+	
+	function draw(n){
+		var cnt=3;
+		if(n>=3)cnt+=nHr(3,n-3)
+		return cnt;
+	}
+	
+	function check(m,n){
+		if(n==1)return 3;
+		var cnt=draw(m)*check(m,n-1);
+		for(var i=2;i<m;i++){
+			cnt+=3*check(i,n-1);
+		}
+		return cnt;
+	}
+	
+	return check(M,N);
+}
+console.log(sol1(3,2));
+console.log(sol1(10,6));
+
+function sol2(M,N){
+	function check(m,n){
+		if(n==1)return 3;
+		var cnt=(3+((m-1)*(m-2)/2))*check(m,n-1);
+		for(var i=2;i<m;i++){
+			cnt+=3*check(i,n-1);
+		}
+		return cnt;
+	}
+	return check(M,N);
+}
+console.log(sol2(3,2));
+console.log(sol2(10,6));
+</script>
