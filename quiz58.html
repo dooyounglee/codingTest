@@ -30,4 +30,41 @@ function my(L,A,B){
 }
 console.log(my(3,4,2));
 console.log(my(11,25,24));
+console.log(my(10,26,24));
+
+function sol1(L,A,B){
+	var memo={};
+	function search(a,b){
+		if(memo[[a,b]])return memo[[a,b]];
+		
+		if(a==A && b==B)return 1;
+		if((a>=L||b>=L) && Math.abs(a-b)>1)return 0;//목표값 도달하지 않았는데 L점 넘어서 2점차 이상 나는 경우
+		if(a>A||b>B)return 0;
+		
+		return memo[[a,b]]=search(a+1,b)+search(a,b+1);
+	}
+	
+	return search(0,0);
+}
+console.log(sol1(3,4,2));
+console.log(sol1(11,25,24));
+console.log(sol1(10,26,24));
+
+function my1(L,A,B){
+	var memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(n==r||r==0)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	if((A>=L||B>=L) && Math.abs(A-B)>2)return 0;
+	let bin=Math.min(A,B)-(L-1);
+	
+	return nCr(2*(L-1),L-1)*Math.pow(2,bin);
+}
+console.log(my1(3,4,2));
+console.log(my1(11,25,24));
+console.log(my1(10,26,24));
+
 </script>
