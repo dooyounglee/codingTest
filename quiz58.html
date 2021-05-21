@@ -1,0 +1,33 @@
+<script>
+function my(L,A,B){
+	var memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(n==r||r==0)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	function game(a,b){
+		let max=Math.max(a,b);
+		let min=Math.min(a,b);
+		if(max-min==2){
+			if(a==A && b==B){return 1;}
+			else{return 0;}
+		}
+		if(max-min==1){
+			if(a==A && b==B){return 1;}
+		}
+		if(a>A||b>B)return 0;
+		
+		let cnt=0;
+		cnt+=game(a+1,b);
+		cnt+=game(a,b+1);
+		
+		return cnt;
+	}
+	
+	return nCr(2*(L-1),L-1)*game(L-1,L-1);
+}
+console.log(my(3,4,2));
+console.log(my(11,25,24));
+</script>
