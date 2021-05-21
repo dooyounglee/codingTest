@@ -49,6 +49,7 @@ function sol1(L,A,B){
 console.log(sol1(3,4,2));
 console.log(sol1(11,25,24));
 console.log(sol1(10,26,24));
+console.log(sol1(11,10,4));
 
 function my1(L,A,B){
 	var memo={};
@@ -58,13 +59,54 @@ function my1(L,A,B){
 		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
 	}
 	
-	if((A>=L||B>=L) && Math.abs(A-B)>2)return 0;
-	let bin=Math.min(A,B)-(L-1);
-	
-	return nCr(2*(L-1),L-1)*Math.pow(2,bin);
+	if(A>L||B>L){
+		if(Math.abs(A-B)>2){
+			return 0;
+		}else{
+			let bin=Math.min(A,B)-(L-1);
+			return nCr(2*(L-1),L-1)*Math.pow(2,bin);
+		}
+	}else{
+		let max=Math.max(A,B);
+		let min=Math.min(A,B);
+		if(max!=11){
+			return nCr(A+B,A);
+		}else{
+			return nCr(A+B-1,min);
+		}
+	}
 }
 console.log(my1(3,4,2));
 console.log(my1(11,25,24));
 console.log(my1(10,26,24));
+console.log(my1(11,10,4));
 
+function sol2(L,A,B){
+	var memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(n==r||r==0)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	if(Math.max(A,B)>L){
+		if(Math.abs(A-B)>2){
+			return 0;
+		}else{
+			return nCr(2*(L-1),L-1)*(2**(Math.min(A,B)-L+1));
+		}
+	}else if(Math.max(A,B)==L){
+		if(Math.abs(A-B)==1){
+			return nCr(2*(L-1),L-1);
+		}else{
+			return nCr(A+B-1,Math.min(A,B));
+		}
+	}else{
+		return nCr(A+B,A);
+	}
+}
+console.log(sol2(3,4,2));
+console.log(sol2(11,25,24));
+console.log(sol2(10,26,24));
+console.log(sol2(11,10,4));
 </script>
