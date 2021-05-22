@@ -1,0 +1,46 @@
+<script>
+function my(){
+	function isTry(arr){
+		     if(arr[0]==0 && arr[1]==0 && arr[2]==0){return true;}
+		else if(arr[0]==1 && arr[1]==1 && arr[2]==1){return true;}
+		else if(arr[3]==0 && arr[4]==0 && arr[5]==0){return true;}
+		else if(arr[3]==1 && arr[4]==1 && arr[5]==1){return true;}
+		else if(arr[6]==0 && arr[7]==0 && arr[8]==0){return true;}
+		else if(arr[6]==1 && arr[7]==1 && arr[8]==1){return true;}
+		else if(arr[0]==0 && arr[3]==0 && arr[6]==0){return true;}
+		else if(arr[0]==1 && arr[3]==1 && arr[6]==1){return true;}
+		else if(arr[1]==0 && arr[4]==0 && arr[7]==0){return true;}
+		else if(arr[1]==1 && arr[4]==1 && arr[7]==1){return true;}
+		else if(arr[2]==0 && arr[5]==0 && arr[8]==0){return true;}
+		else if(arr[2]==1 && arr[5]==1 && arr[8]==1){return true;}
+		else if(arr[0]==0 && arr[4]==0 && arr[8]==0){return true;}
+		else if(arr[0]==1 && arr[4]==1 && arr[8]==1){return true;}
+		else if(arr[2]==0 && arr[4]==0 && arr[6]==0){return true;}
+		else if(arr[2]==1 && arr[4]==1 && arr[6]==1){return true;}
+	}
+	
+	let memo={};
+	let memo1={};
+	function game(arr,now,his){
+		if(isTry(arr)){//3줄 있는지 check
+			if(memo1[his]==undefined){memo1[his]=1}//memo1에 없으면 넣고
+			if(memo[arr])return 0;//이미 나온거 check
+			memo[arr]=1;
+			return false;
+		}
+		
+		for(let i=0;i<arr.length;i++){
+			if(arr[i]==undefined){
+				arr[i]=now
+				game(arr,now==1?0:1,his.concat([i+'-'+now]))
+				arr[i]=undefined
+			}
+		}
+	}
+	
+	let Arr=new Array(9);
+	game(Arr,1,[]);
+	return {aaa:Object.keys(memo).length,bbb:Object.keys(memo1).length}
+}
+console.log(my());
+</script>
