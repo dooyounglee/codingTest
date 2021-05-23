@@ -1,0 +1,48 @@
+<script>
+function my(A,B,barr){
+	function game(arr){
+		let idx;
+		for(let i=0;i<arr.length;i++){
+			if(arr[i].indexOf(0)>-1){
+				idx=[i,arr[i].indexOf(0)];
+				break;
+			}
+		}
+		
+		if(idx==undefined)return 1;
+		
+		let cnt=0;
+		if(idx[1]+1<B && arr[idx[0]][idx[1]+1]==0){
+			let temp_arr=[...arr];
+			temp_arr[idx[0]][idx[1]]=1;
+			temp_arr[idx[0]][idx[1]+1]=1;
+			cnt+=game(temp_arr);
+		}else if(idx[0]+1<A && arr[idx[0]+1][idx[1]]==0){
+			let temp_arr=[...arr];
+			temp_arr[idx[0]][idx[1]]=1;
+			temp_arr[idx[0]+1][idx[1]]=1;
+			cnt+=game(temp_arr);
+		}
+		
+		return cnt;
+	}
+	
+	let arr=[];
+	for(let i=0;i<A;i++){
+		let temp=[]
+		for(let j=0;j<B;j++){
+			temp.push(0);
+		}
+		arr.push(temp);
+	}
+	
+	for(let i=0;i<barr.length;i++){
+		arr[barr[i][0]][barr[i][1]]=1;
+	}
+	
+	return game(arr);
+}
+console.log(my(3,4,[[0,1],[0,2]]));
+console.log(my(4,5,[[0,1],[0,2],[1,2],[1,3]]));
+//console.log(my(7,10));
+</script>
