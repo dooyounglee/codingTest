@@ -1,14 +1,15 @@
 <script>
 function my(N){
 	//3진수 최고차 찾기
-	let max=0;
+	/*let max=0;
 	while(1){
 		if(Math.pow(3,max)>=N){
 			max--;
 			break;
 		}
 		max++;
-	}
+	}*/
+	let max=Math.floor(Math.log(N)/Math.log(3));
 	
 	return Math.pow(2,max+1);
 }
