@@ -1,0 +1,136 @@
+<script>
+function my(N){
+	function game(acc,arr,last,flag){
+		if(acc.length==N){
+			return 1;
+		}else{
+			if(flag==0 && arr.filter(a=>last>a).length==0){
+				return 0;
+			}
+			if(flag==1 && arr.filter(a=>last<a).length==0){
+				return 0;
+			}
+		}
+		
+		let cnt=0;
+		for(let i=0;i<arr.length;i++){
+			let temp_arr=[...arr];
+			let temp_val=temp_arr.splice(i,1);
+			if(flag==0 && arr.filter(a=>last>temp_val).length>0){
+				cnt+=game(acc.concat([temp_val]),temp_arr,temp_val,1);
+			}else if(flag==1 && arr.filter(a=>last<temp_val).length>0){
+				cnt+=game(acc.concat([temp_val]),temp_arr,temp_val,0);
+			}
+		}
+		return cnt;
+	}
+	
+	let Arr=[];
+	for(let i=0;i<N;i++){
+		Arr.push(i);
+	}
+	
+	return 2*game([],Arr,-1,1);//쌓을 배열,안쓴번호들,직전번호,1:큰값 0:작은값
+}
+console.log(my(4));
+console.log(my(10));
+//console.log(my(20));//너무 느리네
+
+function my1(N){
+	var memo={};
+	function game(acc,arr,last,flag){
+		if(memo[[acc,last,flag]])return memo[[acc,last,flag]];
+		
+		if(acc==0){
+			return 1;
+		}else{
+			if(flag==0 && arr.filter(a=>last>a).length==0){
+				return 0;
+			}
+			if(flag==1 && arr.filter(a=>last<a).length==0){
+				return 0;
+			}
+		}
+		
+		let cnt=0;
+		for(let i=0;i<arr.length;i++){
+			let temp_arr=[...arr];
+			let temp_val=temp_arr.splice(i,1);
+			if(flag==0 && arr.filter(a=>last>temp_val).length>0){
+				cnt+=game(acc-1,temp_arr,temp_val,1);
+			}else if(flag==1 && arr.filter(a=>last<temp_val).length>0){
+				cnt+=game(acc-1,temp_arr,temp_val,0);
+			}
+		}
+		return memo[[acc,last,flag]]=cnt;
+	}
+	
+	let Arr=[];
+	for(let i=0;i<N;i++){
+		Arr.push(i);
+	}
+	
+	return 2*game(N,Arr,-1,1);//쌓을 배열,안쓴번호들,직전번호,1:큰값 0:작은값
+}
+console.log(my1(4));
+console.log(my1(10));
+//console.log(my1(20));
+
+function sol1(N){
+	var memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(r==0||n==r)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	var memo_tall={};
+	function tall(n){
+		if(n<=2)return 1;
+		if(memo_tall[n])return memo_tall[n];
+		
+		var result=0;
+		for(var i=1;i<=n;i++){
+			result+=tall(i-1)*nCr(n-1,i-1)*tall(n-i);
+			//1~n-1 까지 있다 치고 n을 끼워넣는다 치자.
+			//제일 앞에 n 배치하면 나머지 n-1자리에 1~n-1개 넣는다 치고
+			//...
+			//제일 뒤에 n 배치하면 나머지 n-1자리에 1~n-1개 넣는다 치고
+			//서로다른 n개만 있으면 무조건 교대수열 찾을 수 있음.
+			//1~n-1중에 n을 배치할 자리 앞에꺼만 고르면 뒤에꺼 저절로 골라짐.nCr(n-1,0),,,nCr(n-1,n-1)
+			//for(i=0~n-1)돌리고
+			//nCr(n-1,i-1)개를 선택하고 n의 앞자리 i-1개, n의 뒷자리 n-i개를 교대수열 하면 됌.
+			//tall(n)=\sigma{i=1}{n} tall(i-1)*nCr(n-1,i-1)*tall(n-i)
+		}
+		return memo_tall[n]=result/2;
+	}
+	
+	if(N==1){
+		return 1;
+	}else{
+		return 2*tall(N);
+	}
+}
+console.log(sol1(4));
+console.log(sol1(10));
+console.log(sol1(20));
+
+//이건 잘 모르겠다..Alternating permutation, Entringer number, Euler zigzag number
+function sol2(N){
+	var z=new Array(N+1);
+	for(var i=0;i<=N;i++){
+		z[i]=new Array(i+1).fill(0);
+	}
+	z[0][0]=1;
+	for(var n=1;n<=N;n++){
+		for(var k=1;k<=n;k++){
+			z[n][k]=z[n][k-1]+z[n-1][n-k];
+		}
+	}
+	
+	return 2*z[N][N];
+}
+console.log(sol2(4));
+console.log(sol2(10));
+console.log(sol2(20));
+</script>
