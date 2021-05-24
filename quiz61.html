@@ -17,7 +17,8 @@ function my(A,B,barr){
 			temp_arr[idx[0]][idx[1]]=1;
 			temp_arr[idx[0]][idx[1]+1]=1;
 			cnt+=game(temp_arr);
-		}else if(idx[0]+1<A && arr[idx[0]+1][idx[1]]==0){
+		}
+		if(idx[0]+1<A && arr[idx[0]+1][idx[1]]==0){
 			let temp_arr=[...arr];
 			temp_arr[idx[0]][idx[1]]=1;
 			temp_arr[idx[0]+1][idx[1]]=1;
@@ -42,7 +43,98 @@ function my(A,B,barr){
 	
 	return game(arr);
 }
-console.log(my(3,4,[[0,1],[0,2]]));
-console.log(my(4,5,[[0,1],[0,2],[1,2],[1,3]]));
+//console.log(my(3,4,[[0,1],[0,2]]));
+//console.log(my(4,5,[[0,1],[0,2],[1,2],[1,3]]));
 //console.log(my(7,10));
+
+function sol(W,H){
+	var pins = new Array(W * H);
+	for (var i = 0; i < W * H; i++)
+	  pins[i] = 0;
+
+	// 고장 난 빨래집게를 배치한 상태로, 몇 가지 방법이 나오는지 확인하기
+	function check(temp) {
+	  var connect = new Array(W * H);
+	  for (var i = 0; i < W * H; i++)
+		connect[i] = 0;
+	  var remain = 0, single = 0;
+	  for (var i = 0; i < W * H; i++) {
+		if (temp[i] == 0) {
+		  // 배치되어 있지 않은 경우, 위 아래 왼쪽 오른쪽이 비어 있는지 확인하기
+		  if ((i % W != 0) && (temp[i - 1] == 0)) connect[i]++;
+		  if ((i % W != W - 1) && (temp[i + 1] == 0)) connect[i]++;
+		  if ((i / W != 0) && (temp[i - W] == 0)) connect[i]++;
+		  if ((i / W != H - 1) && (temp[i + W] == 0)) connect[i]++;
+		  remain++; // 배치되어 있지 않은 빨래집게 수 세기
+		  if (connect[i] == 1) single++; // 1가지로 결정된 위치의 수
+		}
+	  }
+	  if (single > 0) {
+		for (var i = 0; i < W * H; i++) {
+		  if ((connect[i] == 1) && (temp[i] == 0)) {
+			// 1가지로 결정된 경우, 사용하기
+			temp[i] = 1;
+			if ((i % W != 0) && (temp[i - 1] == 0)) {
+			  temp[i - 1] = 1;
+			} else if ((i % W != W - 1) && (temp[i + 1] == 0)) {
+			  temp[i + 1] = 1;
+			} else if ((i / W != 0) && (temp[i - W] == 0)) {
+			  temp[i - W] = 1;
+			} else if ((i / W != H - 1) && (temp[i + W] == 0)) {
+			  temp[i + W] = 1;
+			} else {
+			  return 1; // 배치할 수 없음
+			}
+		  }
+		}
+		return check(temp);
+	  } else {
+		return remain;
+	  }
+	}
+
+	// 고장 난 빨래집게를 재귀적으로 배치하기
+	// pos: 배치할 위치
+	// depth: 배치할 수
+	function search(pos, depth) {
+	  if (depth == 0) { // 배치 종료
+		if (check(pins.concat()) == 0) {
+		  // 1가지로 결정된 때는 출력하고 종료하기
+		  //console.log(broken);
+		  done = true;
+		}
+		return;
+	  }
+	  if (pos == W * H) return; // 탐색 종료
+	  if (pins[pos] == 0) { // 배치하지 않은 경우
+		if ((pos % W < W - 1) && (pins[pos + 1] == 0)) { // 가로로 배치
+		  [pins[pos], pins[pos + 1]] = [1, 1];
+		  search(pos, depth - 1);
+		  [pins[pos], pins[pos + 1]] = [0, 0];
+		}
+		if (done) return;
+		if ((pos / W < H - 1) && (pins[pos + W] == 0)) { // 세로로 배치
+		  [pins[pos], pins[pos + W]] = [1, 1];
+		  search(pos, depth - 1);
+		  [pins[pos], pins[pos + W]] = [0, 0];
+		}
+	  }
+	  if (done) return;
+	  search(pos + 1, depth); // 다음 탐색 진행하기
+	}
+
+	// 고장 난 수를 늘리면서 탐색하기
+	var broken = 0;
+	var done = false;
+	for (var i = 0; i < W * H / 2; i++) {
+	  broken = i;
+	  search(0, broken);
+	  if (done) break;
+	}
+	
+	return broken;
+}
+console.log(sol(3,4));
+console.log(sol(4,5));
+console.log(sol(7,10));
 </script>
