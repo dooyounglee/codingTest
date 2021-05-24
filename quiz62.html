@@ -1,0 +1,53 @@
+<script>
+function my(A,B){
+	function gcd(A,B){
+		var max;var min;
+		if(A>B){
+			max=A;min=B;
+		}else{
+			max=B;min=A;
+		}
+		
+		while(max%min!=0){
+			var temp=max%min;
+			max=min;
+			min=temp;
+		}
+		
+		return min;
+	}
+	
+	
+	let lcm=A*B/gcd(A,B);
+	return {min:lcm,max:Math.min(2*lcm,A*B)};
+}
+console.log(my(4,2));
+console.log(my(3,4));
+console.log(my(6,9));
+console.log(my(60,60));
+
+function sol(A,B){
+	function gcd(a,b){
+		if(b==0)return a;
+		return gcd(b,a%b);
+	}
+	
+	function lcm(a,b){
+		return a*b/gcd(a,b);
+	}
+	
+	var min,max;
+	if(A==B){
+		[min,max]=[A,2*A];
+	}else if(gcd(A,B)==1){
+		[min,max]=[A*B,A*B];
+	}else{
+		[min,max]=[lcm(A,B),2*lcm(A,B)];
+	}
+	return {min:min,max:max};
+}
+console.log(sol(4,2));
+console.log(sol(3,4));
+console.log(sol(6,9));
+console.log(sol(60,60));
+</script>
