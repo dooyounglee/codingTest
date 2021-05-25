@@ -1,0 +1,28 @@
+<script>
+function my(N){
+	let memo={};
+	function nCr(n,r){
+		if(memo[[n,r]])return memo[[n,r]];
+		if(n==r||r==0)return 1;
+		return memo[[n,r]]=nCr(n-1,r-1)+nCr(n-1,r);
+	}
+	
+	//제일 처음으로 nCr(N,i)%2==0일때 i값이면 되는데, N이 너무 커서 nCr함수가 너무 많이 호출돼서 답 안구해줌.
+	let temp=1;
+	for(let i=1;i<N;i++){
+		temp=(N+1-i)/i
+		if(temp%2==0)return i;
+	}
+}
+console.log(my(5));
+console.log(my(9830));
+console.log(my(98303));
+
+function sol(N){
+	let m=N.toString(2).split("").reverse().join("").indexOf("0");
+	return m?Math.pow(2,m):"";//정답이 2^k형태라고??
+}
+console.log(sol(5));
+console.log(sol(9830));
+console.log(sol(98303));
+</script>
