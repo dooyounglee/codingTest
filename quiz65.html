@@ -2,8 +2,6 @@
 function my(M,N){
 	
 	function game(people,paper,last,first){
-		//if(acc.length==M){console.log(acc);}
-		//console.log(acc);
 		if(people==0){
 			if(paper!=0){
 				return 0;
@@ -37,5 +35,55 @@ function my(M,N){
 console.log(my(3,7));
 console.log(my(2,7));
 console.log(my(3,8));
-console.log(my(20,100));
+//console.log(my(20,100));
+
+function sol1(M,N){
+	function search(m,n,vote){
+		if(m==0)return n==0?1:0;
+		
+		var cnt=0;
+		for(var i=vote[m];i<=n/m;i++){
+			vote[m-1]=i;
+			if(vote[m-1]%vote[M-1]==0){
+				cnt+=search(m-1,n-i,vote);
+			}
+		}
+		
+		return cnt;
+	}
+	
+	var vote=new Array(M+1);
+	for(var i=0;i<M;i++){
+		vote[i]=0;
+	}
+	vote[M]=1;
+	
+	return search(M,N,vote);
+}
+console.log(sol1(3,7));
+console.log(sol1(2,7));
+console.log(sol1(3,8));
+console.log(sol1(20,100));
+
+function sol2(M,N){
+	var memo=[];
+	function split(m,k){
+		if(memo[[m,k]])return memo[[m,k]];
+		if(m==1||m==k)return 1;
+		if(k<m)return 0;
+		return memo[[m,k]]=split(m-1,k-1)+split(m,k-m);//이건 또 뭐지
+	}
+	
+	var cnt=0;
+	for(var k=1;k<=N/M;k++){
+		if(N-k)%k==0){
+			cnt+=split(M-1,(N-k)/k);//(N-k)/k 이게 뭐지
+		}
+	}
+	return cnt;
+}
+console.log(sol2(3,7));
+console.log(sol2(2,7));
+console.log(sol2(3,8));
+console.log(sol2(20,100));
 </script>
